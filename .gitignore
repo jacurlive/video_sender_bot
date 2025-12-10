@@ -1,0 +1,12 @@
+.env
+venv/
+.idea/
+__pycache__/
+
+
+database.db
+database/download_post.py
+database/download_video.py
+database/sender_session.session
+database/user_session.session
+database/copy_video.py
