@@ -1,7 +1,7 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
 from config import ADMIN_ID, STORAGE_CHANNEL
-from database.db import get_next_code, add_film
+from database.db import get_next_code, add_film, get_users_count
 
 router = Router()
 
@@ -45,3 +45,12 @@ async def handle_video(message: types.Message, bot):
     # Сбрасываем состояние
     router.data["waiting_for_video"] = False
     return None
+
+
+@router.message(Command("count"))
+async def count_command(message: types.Message):
+    if message.from_user.id != ADMIN_ID:
+        return await message.answer("⛔ У тебя нет прав использовать эту команду.")
+
+    count = get_users_count()
+    await message.answer(f"Users count: {count}")

@@ -42,3 +42,10 @@ def add_film(code, title, message_id):
             (code, title, message_id)
         )
         conn.commit()
+
+
+def get_users_count():
+    with get_conn() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM users")
+        return cur.fetchone()[0]

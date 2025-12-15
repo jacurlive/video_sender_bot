@@ -4,7 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from database.db import add_user
 from utils.check_subs import check_subscriptions
-from config import REQUIRED_CHANNELS, REQUIRED_GROUPS
+from config import REQUIRED_CHANNELS
 
 router = Router()
 
@@ -13,16 +13,16 @@ async def start_handler(message: types.Message, bot):
     user = message.from_user
     add_user(user.id, user.username or "-")
 
-    is_ok = await check_subscriptions(bot, user.id, REQUIRED_CHANNELS, REQUIRED_GROUPS)
+    is_ok = await check_subscriptions(bot, user.id, REQUIRED_CHANNELS)
     if not is_ok:
         builder = InlineKeyboardBuilder()
 
         # создаём по одной кнопке на каждый канал
-        for ch in REQUIRED_CHANNELS:
+        for idx, ch in enumerate(REQUIRED_CHANNELS, start=1):
             username = ch.replace("@", "")
             builder.row(
                 types.InlineKeyboardButton(
-                    text=f"📢 {username}",
+                    text=f"📢 Канал {idx}",
                     url=f"https://t.me/{username}"
                 )
             )
@@ -49,7 +49,7 @@ async def start_handler(message: types.Message, bot):
 async def check_subscription_callback(callback: types.CallbackQuery, bot):
     user_id = callback.from_user.id
 
-    is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS, REQUIRED_GROUPS)
+    is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS)
     if is_ok:
         await callback.message.edit_text("✅ Отлично! Ты подписан.\nТеперь отправь код фильма (например: 4)")
     else:

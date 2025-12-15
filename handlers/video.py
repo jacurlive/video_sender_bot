@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from database.db import get_film_by_code, increment_download
 from utils.check_subs import check_subscriptions
-from config import REQUIRED_CHANNELS, REQUIRED_GROUPS
+from config import REQUIRED_CHANNELS
 
 router = Router()
 
@@ -13,7 +13,7 @@ async def handle_video_code(message: types.Message, bot):
     if not text.isdigit():
         return await message.answer("⚠️ Введи числовой код фильма!")
 
-    is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS, REQUIRED_GROUPS)
+    is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS)
     if not is_ok:
         return await message.answer("❌ Ты не подписан на нужные каналы!")
 
