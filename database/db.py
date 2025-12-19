@@ -49,3 +49,15 @@ def get_users_count():
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM users")
         return cur.fetchone()[0]
+
+
+def get_users():
+    with get_conn() as conn:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT *
+            FROM users
+            ORDER BY id DESC
+            LIMIT 20
+        """)
+        return cur.fetchall()

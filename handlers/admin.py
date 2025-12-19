@@ -1,7 +1,8 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
+
 from config import ADMIN_ID, STORAGE_CHANNEL
-from database.db import get_next_code, add_film, get_users_count
+from database.db import get_next_code, add_film, get_users_count, get_users
 
 router = Router()
 
@@ -54,3 +55,30 @@ async def count_command(message: types.Message):
 
     count = get_users_count()
     await message.answer(f"Users count: {count}")
+
+
+@router.message(Command("users"))
+async def users_command(message: types.Message):
+    if message.from_user.id != ADMIN_ID:
+        return await message.answer("⛔ У тебя нет прав использовать эту команду.")
+
+    users = get_users()
+
+    if not users:
+        return await message.answer("📭 Пользователи не найдены.")
+
+    text = ["👥 <b>Последние 20 пользователей:</b>\n"]
+
+    for i, user in enumerate(users, start=1):
+        _, user_id, username, joined_at = user
+
+        username = f"@{username}" if username else "—"
+
+        text.append(
+            f"<b>{i}.</b> ID: <code>{user_id}</code> | {username} | {joined_at}"
+        )
+
+    await message.answer(
+        "\n".join(text),
+        parse_mode="HTML"
+    )
