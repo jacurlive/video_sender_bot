@@ -1,9 +1,11 @@
 import sqlite3
 
+
 DB_PATH = "database.db"
 
 def get_conn():
     return sqlite3.connect(DB_PATH)
+
 
 def add_user(user_id, username):
     with get_conn() as conn:
@@ -14,11 +16,13 @@ def add_user(user_id, username):
         )
         conn.commit()
 
+
 def get_film_by_code(code):
     with get_conn() as conn:
         cur = conn.cursor()
         cur.execute("SELECT * FROM films WHERE code = ?", (code,))
         return cur.fetchone()
+
 
 def increment_download(code):
     with get_conn() as conn:
@@ -33,6 +37,7 @@ def get_next_code():
         cur.execute("SELECT MAX(code) FROM films")
         last = cur.fetchone()[0]
         return (last or 0) + 1
+
 
 def add_film(code, title, message_id):
     with get_conn() as conn:

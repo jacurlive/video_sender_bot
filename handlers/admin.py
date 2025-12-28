@@ -4,7 +4,9 @@ from aiogram.filters import Command
 from config import ADMIN_ID, STORAGE_CHANNEL
 from database.db import get_next_code, add_film, get_users_count, get_users
 
+
 router = Router()
+
 
 @router.message(Command("add"))
 async def add_command(message: types.Message):
@@ -14,6 +16,7 @@ async def add_command(message: types.Message):
     await message.answer("📥 Отправь видео и его описание в одном сообщении.")
     # Ставим состояние ожидания видео — упрощённый вариант без FSM
     router.data = {"waiting_for_video": True}
+
 
 @router.message(F.video)
 async def handle_video(message: types.Message, bot):
