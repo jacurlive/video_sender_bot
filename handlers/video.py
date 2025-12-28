@@ -11,15 +11,15 @@ async def handle_video_code(message: types.Message, bot):
     text = message.text.strip()
 
     if not text.isdigit():
-        return await message.answer("⚠️ Введи числовой код фильма!")
+        return await message.answer("⚠️ Введи числовой код фильма!\n\n⚠️ Enter the movie's numeric code!")
 
     is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS_ID)
     if not is_ok:
-        return await message.answer("❌ Ты не подписан на нужные каналы!")
+        return await message.answer("❌ Ты не подписан на нужные каналы!Нажми /start\n\n❌ You're not subscribed to the channels you want! Press /start")
 
     film = get_film_by_code(int(text))
     if not film:
-        return await message.answer("🎞 Фильм с таким кодом не найден!")
+        return await message.answer("🎞 Movie with this code not found!")
 
     film_id, code, title, message_id, downloads = film
     increment_download(code)

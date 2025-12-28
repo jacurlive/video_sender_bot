@@ -37,12 +37,14 @@ async def start_handler(message: types.Message, bot):
 
         await message.answer(
             "🚫 Чтобы пользоваться ботом, подпишись на каналы:\n\n"
-            "После этого нажми «✅ Проверить подписку».",
+            "После этого нажми «✅ Проверить подписку».\n\n\n\n"
+            "🚫 To use the bot, subscribe to the following channels:\n\n"
+            "Then click «✅ Проверить подписку».",
             reply_markup=builder.as_markup()
         )
         return
 
-    await message.answer("✅ Привет! Отправь код фильма (например: 4)")
+    await message.answer("✅ Привет! Отправь код фильма (например: 4)\n\nHi! Send me the movie code (for example: 4)")
 
 
 @router.callback_query(F.data == "check_subs")
@@ -51,6 +53,6 @@ async def check_subscription_callback(callback: types.CallbackQuery, bot):
 
     is_ok = await check_subscriptions(bot, user_id, REQUIRED_CHANNELS_ID)
     if is_ok:
-        await callback.message.edit_text("✅ Отлично! Ты подписан.\nТеперь отправь код фильма (например: 4)")
+        await callback.message.edit_text("✅ Отлично! Ты подписан.\nТеперь отправь код фильма (например: 4)\n\n✅ Great! You're subscribed.\nNow send the movie code (for example: 4)")
     else:
-        await callback.answer("❌ Подписка не найдена. Проверь ещё раз.", show_alert=True)
+        await callback.answer("❌ Подписка не найдена. Проверь ещё раз.\n\n❌ Subscription not found. Please check again.", show_alert=True)
