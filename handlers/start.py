@@ -36,15 +36,15 @@ async def start_handler(message: types.Message, bot):
         )
 
         await message.answer(
-            "🚫 Чтобы пользоваться ботом, подпишись на каналы:\n\n"
+            "🇷🇺 Чтобы пользоваться ботом, подпишись на каналы:\n\n"
             "После этого нажми «✅ Проверить подписку».\n\n\n\n"
-            "🚫 To use the bot, subscribe to the following channels:\n\n"
+            "🇺🇸 To use the bot, subscribe to the following channels:\n\n"
             "Then click «✅ Проверить подписку».",
             reply_markup=builder.as_markup()
         )
         return
 
-    await message.answer("✅ Привет! Отправь код фильма (например: 4)\n\nHi! Send me the movie code (for example: 4)")
+    await message.answer("✅ Привет! Отправь код фильма (например: 4)\n\n✅ Hi! Send me the movie code (for example: 4)")
 
 
 @router.callback_query(F.data == "check_subs")
